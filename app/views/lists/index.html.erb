@@ -1,0 +1,47 @@
+<h1>Lists</h1>
+
+<table class="table table-bordered">
+  <thead class="thead-dark">
+    <tr>
+      <th>Description</th>
+      <th colspan="2"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @lists.each do |list| %>
+
+      <% if list.completed %>
+      <tr class="table-secondary">
+        <td class="striker"><%= link_to list.description, edit_list_path(list) %></td>
+        <td>
+          <%= form_for(list) do |f| %>
+          <%= f.text_field :description, type: 'hidden' %>
+          <%= f.check_box :completed, :checked => false, :style => 'visibility: hidden' %>
+          <%= f.submit "Uncross", class: "btn btn-dark" %>
+          <% end %>
+        </td>
+        <td><%= link_to 'Destroy', list, method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-dark" %></td>
+      </tr>
+
+      <% else %>
+      <tr>
+        <td><%= link_to list.description, edit_list_path(list) %></td>
+        <td>
+          <%= form_for(list) do |f| %>
+          <%= f.text_field :description, type: 'hidden' %>
+          <%= f.check_box :completed, :checked => true, :style => 'visibility: hidden' %>
+          <%= f.submit "Cross", class: "btn btn-dark" %>
+          <% end %>
+        </td>
+        <td><%= link_to 'Destroy', list, method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-dark" %></td>
+      </tr>
+      <% end %>
+
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New List', new_list_path, class:"btn btn-dark" %>
